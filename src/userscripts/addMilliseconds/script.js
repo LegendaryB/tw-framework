@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Add milliseconds
+// @name         Add milliseconds to the confirm command screen
 // @namespace    https://github.com/LegendaryB/tw-framework
 // @version      0.1
-// @description  try to take over the world!
+// @description  Add milliseconds to the confirm command screen. A target millisecond is configurable. The arrival time row will be painted red and flashes green when you should press the attack button.
 // @author       LegendaryB
 // @include      https://de*.die-staemme.de/game.php?**&screen=place&try=confirm
 // @resource     table_row_html https://raw.githubusercontent.com/LegendaryB/tw-framework/main/src/userscripts/addMilliseconds/table-template.html
