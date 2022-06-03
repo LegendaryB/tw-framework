@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Add milliseconds
-// @namespace    http://github.com/LegendaryB
+// @namespace    http://github.com/LegendaryB/tw-framework
 // @version      0.1
 // @description  try to take over the world!
 // @author       LegendaryB
