@@ -19,17 +19,19 @@
 
     $($('#command-data-form').find('tbody')[0]).append(TABLE_ROW_TEMPLATE);
     $('.relative_time').after(SPAN_MS_TEMPLATE);
-    
-    const SAVE_TARGET_MS_ELEMENT = $('#saveTargetMs');
-    const TARGET_MS_ELEMENT = $('#targetMs');
+
     const SERVER_MS_ELEMENT = $('#serverMs');
-    const USE_ENTER_HOTKEY_ELEMENT = $('#useENTERHotkey');
-    const GREEN_BEFORE_SEND_ELEMENT = $('#greenBeforeSend');
+    const SAVE_TARGET_MS_ELEMENT = $('#saveTargetMs');
+
+    const TARGET_MS_ELEMENT = $('#targetMs');
+    const DELAY_ELEMENT = $('#delay');
+    const OFFSET_ELEMENT = $('#offset');
 
     const ARRIVAL_ELEMENT = $('#date_arrival');
 
     let targetMs = 0;
-    let greenBeforeSend = 0;
+    let delay = 0;
+    let offset = 0;
 
     const setArrivalElementStyle = (color) => {
         ARRIVAL_ELEMENT.css({ 'background-color': color });
@@ -44,7 +46,7 @@
             return;
         }
 
-        if (currentMs == targetMs || inRange(currentMs, targetMs - greenBeforeSend, targetMs)) {
+        if (currentMs == targetMs || inRange(currentMs, targetMs - offset - delay, targetMs)) {
             setArrivalElementStyle('Lime');
         }
         else {
@@ -65,13 +67,10 @@
 
     SAVE_TARGET_MS_ELEMENT.click(() => {
         targetMs = Number(TARGET_MS_ELEMENT.val());
-        greenBeforeSend = Number(GREEN_BEFORE_SEND_ELEMENT.val());
+        delay = Number(DELAY_ELEMENT.val());
+        offset = Number(OFFSET_ELEMENT.val());
 
         UI.SuccessMessage('Target millisecond saved!');
-
-        if (USE_ENTER_HOTKEY_ELEMENT.is(':checked')) {
-            $('#troop_confirm_submit').focus();
-        }
     });
 
     run();
