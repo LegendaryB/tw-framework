@@ -15,7 +15,7 @@
     'use strict';
 
     const TABLE_ROW_TEMPLATE = GM_getResourceText('table_row_html');
-    const SPAN_MS_TEMPLATE = GM_getResourceText('ms-span-template');
+    const SPAN_MS_TEMPLATE = GM_getResourceText('span-ms-template');
 
     $($('#command-data-form').find('tbody')[0]).append(TABLE_ROW_TEMPLATE);
     $('.relative_time').after(SPAN_MS_TEMPLATE);
