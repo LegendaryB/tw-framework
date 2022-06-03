@@ -1,36 +1,25 @@
 // ==UserScript==
 // @name         Add milliseconds
-// @namespace    http://github.com/LegendaryB/tw-framework
+// @namespace    https://github.com/LegendaryB/tw-framework
 // @version      0.1
 // @description  try to take over the world!
 // @author       LegendaryB
 // @include      https://de*.die-staemme.de/game.php?**&screen=place&try=confirm
+// @resource     table_row_html https://raw.githubusercontent.com/LegendaryB/tw-framework/main/src/userscripts/addMilliseconds/table-template.html
+// @resource     span-ms-template https://raw.githubusercontent.com/LegendaryB/tw-framework/main/src/userscripts/addMilliseconds/span-ms-template.html
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=die-staemme.de
-// @grant        none
+// @grant        GM_getResourceText
 // ==/UserScript==
 
 (function () {
     'use strict';
 
-    const TABLE_ROW_HTML = `
-      <tr>
-         <td>Milliseconds:</td>
-         <td><input type="number" id="targetMs"></td>
-      </tr>
-      <tr>
-         <td>Use ENTER Hotkey:</td>
-         <td><input type="checkbox" id="useENTERHotkey"></td>
-      </tr>
-      <tr>
-         <td>Offset:</td>
-         <td><input type="number" id="greenBeforeSend" value="80"><button type="button" id="saveTargetMs" class="btn" style="float: right;">Save</button></td>
-      </tr>`
+    const TABLE_ROW_TEMPLATE = GM_getResourceText('table_row_html');
+    const SPAN_MS_TEMPLATE = GM_getResourceText('ms-span-template');
 
-    const SERVER_MILLISECONDS_HTML = `<span id="serverMs" style="font-size: 11px; color: DimGray;"></span>`;
-
-    $('.relative_time').after(SERVER_MILLISECONDS_HTML);
-    $($('#command-data-form').find('tbody')[0]).append(TABLE_ROW_HTML);
-
+    $($('#command-data-form').find('tbody')[0]).append(TABLE_ROW_TEMPLATE);
+    $('.relative_time').after(SPAN_MS_TEMPLATE);
+    
     const SAVE_TARGET_MS_ELEMENT = $('#saveTargetMs');
     const TARGET_MS_ELEMENT = $('#targetMs');
     const SERVER_MS_ELEMENT = $('#serverMs');
