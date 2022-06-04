@@ -1,4 +1,4 @@
-class InfoAllyScreen {
+export class InfoAllyScreen {
     static #TABLE_CLASSNAME = 'vis';
 
     static #ATTRIBUTE_TABLE_INDEX = 0;
