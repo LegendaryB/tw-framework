@@ -1,1 +1,156 @@
-(()=>{"use strict";class e{static#e="vis";static#t=0;static#r=1;static getAlly(){let e=this.getAttributesTable(),t=Array.from(e.querySelectorAll("td:nth-child(2)"));return{id:InfoAlly.ally_id,name:t[0].innerText,tag:t[1].innerText,playerCount:Number(t[2].innerText),points:Number(t[4].innerText.replace(".","")),rank:Number(t[5].innerText),bashpoints:this.#s(t[7]),bashpointsRank:this.#n(t[7])}}static getPlayers(){let e=this.getPlayerTable(),t=Array.from(e.querySelectorAll("tr:nth-child(n+2)")),r=[];for(let e of t){let t={id:this.#i(e.cells[0]),name:this.#a(e.cells[0]),points:Number(e.cells[2].innerText.replace(",","")),rank:Number(e.cells[3].innerText),ally:this.getAlly(),villageCount:Number(e.cells[4].innerText)};r.push(t)}return r}static getAttributesTable(){return this.#l(this.#t)}static getPlayerTable(){return this.#l(this.#r)}static#a(e){return e.querySelector("a").innerText}static#s(e){let t=e.innerText;return t=t.substring(0,t.indexOf(" ")-1),Number(t.replace(".",""))}static#n(e){let t=e.innerText;return t=t.substring(t.indexOf("(")+1,t.indexOf(")")),Number(t.replace(".",""))}static#i(e){let t=e.querySelector("a"),r=new URLSearchParams(t.href);return Number(r.get("id"))}static#l(e){return document.getElementsByClassName(this.#e)[e]}}class t{constructor(e,t,r,s,n,i,a,l){this.id=e,this.name=t,this.tag=r,this.playerCount=s,this.points=n,this.rank=i,this.bashpoints=a,this.bashpointsRank=l}}class r{constructor(e,t,r,s,n,i){this.id=e,this.name=t,this.points=r,this.rank=s,this.ally=n,this.villageCount=i}}window.TWFramework={},window.TWFramework.World=class{},window.TWFramework.ScreenControllers=new class{constructor(){this.InfoAllyScreen=new e}},window.TWFramework.ModelFactory=class{static createAlly(e,r,s,n,i,a,l,c){return new t(e,r,s,n,i,a,l,c)}static createPlayer(e,t,s,n,i,a){return new r(e,t,s,n,i,a)}}})();
+/*
+ * ATTENTION: The "eval" devtool has been used (maybe by default in mode: "development").
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./src/lib.js":
+/*!********************!*\
+  !*** ./src/lib.js ***!
+  \********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _modules_world_world__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/world/world */ \"./src/modules/world/world.js\");\n/* harmony import */ var _modules_screens_screens__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/screens/screens */ \"./src/modules/screens/screens.js\");\n/* harmony import */ var _models_factory__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./models/factory */ \"./src/models/factory.js\");\n\r\n\r\n\r\n\r\n(async () => {\r\n    window.TWFramework = {};\r\n    window.TWFramework.ModelFactory = _models_factory__WEBPACK_IMPORTED_MODULE_2__.ModelFactory;\r\n\r\n    window.TWFramework.World = await _modules_world_world__WEBPACK_IMPORTED_MODULE_0__.World.load();\r\n    window.TWFramework.ScreenControllers = new _modules_screens_screens__WEBPACK_IMPORTED_MODULE_1__.ScreensController();\r\n    \r\n})();\n\n//# sourceURL=webpack://tw-framework/./src/lib.js?");
+
+/***/ }),
+
+/***/ "./src/models/ally.js":
+/*!****************************!*\
+  !*** ./src/models/ally.js ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"Ally\": () => (/* binding */ Ally)\n/* harmony export */ });\nclass Ally {\r\n    constructor(id, name, tag, playerCount, points, rank, bashpoints, bashpointsRank) {\r\n        this.id = id;\r\n        this.name = name;\r\n        this.tag = tag;\r\n        this.playerCount = playerCount;\r\n        this.points = points;\r\n        this.rank = rank;\r\n        this.bashpoints = bashpoints;\r\n        this.bashpointsRank = bashpointsRank;\r\n    }\r\n}\n\n//# sourceURL=webpack://tw-framework/./src/models/ally.js?");
+
+/***/ }),
+
+/***/ "./src/models/factory.js":
+/*!*******************************!*\
+  !*** ./src/models/factory.js ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"ModelFactory\": () => (/* binding */ ModelFactory)\n/* harmony export */ });\n/* harmony import */ var _ally__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ally */ \"./src/models/ally.js\");\n/* harmony import */ var _player__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./player */ \"./src/models/player.js\");\n/* harmony import */ var _unit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./unit */ \"./src/models/unit.js\");\n\r\n\r\n\r\n\r\nclass ModelFactory {\r\n    static createAlly(id, name, tag, playerCount, points, rank, bashpoints, bashpointsRank) {\r\n        return new _ally__WEBPACK_IMPORTED_MODULE_0__.Ally(\r\n            id, name, tag, playerCount, points, rank, bashpoints, bashpointsRank\r\n        );\r\n    }\r\n\r\n    static createPlayer(id, name, points, rank, ally, villageCount) {\r\n        return new _player__WEBPACK_IMPORTED_MODULE_1__.Player(\r\n            id, name, points, rank, ally, villageCount\r\n        );\r\n    }\r\n\r\n    static createUnit(name, buildTime, population, speed, attack, defense, defenseCavalry, defenseArcher, carry) {\r\n        return new _unit__WEBPACK_IMPORTED_MODULE_2__.Unit(\r\n            name, buildTime, population, speed, attack, defense, defenseCavalry, defenseArcher, carry\r\n        );\r\n    }\r\n}\n\n//# sourceURL=webpack://tw-framework/./src/models/factory.js?");
+
+/***/ }),
+
+/***/ "./src/models/player.js":
+/*!******************************!*\
+  !*** ./src/models/player.js ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"Player\": () => (/* binding */ Player)\n/* harmony export */ });\nclass Player {\r\n    constructor(id, name, points, rank, ally, villageCount) {\r\n        this.id = id;\r\n        this.name = name;\r\n        this.points = points;\r\n        this.rank = rank;\r\n        this.ally = ally;\r\n        this.villageCount = villageCount;\r\n    }\r\n}\n\n//# sourceURL=webpack://tw-framework/./src/models/player.js?");
+
+/***/ }),
+
+/***/ "./src/models/unit.js":
+/*!****************************!*\
+  !*** ./src/models/unit.js ***!
+  \****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"Unit\": () => (/* binding */ Unit)\n/* harmony export */ });\nclass Unit {\r\n    constructor(name, buildTime, population, speed, attack, defense, defenseCavalry, defenseArcher, carry) {\r\n        this.Name = name;\r\n        this.BuildTime = buildTime;\r\n        this.Population = population;\r\n        this.Speed = speed;\r\n        this.Attack = attack;\r\n        this.Defense = defense;\r\n        this.DefenseCavalry = defenseCavalry;\r\n        this.DefenseArcher = defenseArcher;\r\n        this.Carry = carry;\r\n    }\r\n}\n\n//# sourceURL=webpack://tw-framework/./src/models/unit.js?");
+
+/***/ }),
+
+/***/ "./src/modules/screens/AllyScreen.js":
+/*!*******************************************!*\
+  !*** ./src/modules/screens/AllyScreen.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"InfoAllyScreen\": () => (/* binding */ InfoAllyScreen)\n/* harmony export */ });\nclass InfoAllyScreen {\r\n    static #TABLE_CLASSNAME = 'vis';\r\n\r\n    static #ATTRIBUTE_TABLE_INDEX = 0;\r\n    static #PLAYER_TABLE_INDEX = 1;\r\n\r\n    static getAlly() {\r\n        let table = this.getAttributesTable();\r\n        let rows = Array.from(table.querySelectorAll('td:nth-child(2)'));\r\n\r\n        return {\r\n            id: InfoAlly.ally_id,\r\n            name: rows[0].innerText,\r\n            tag: rows[1].innerText,\r\n            playerCount: Number(rows[2].innerText),\r\n            points: Number(rows[4].innerText.replace('.', '')),\r\n            rank: Number(rows[5].innerText),\r\n            bashpoints: this.#getBashpoints(rows[7]),\r\n            bashpointsRank: this.#getBashpointsRank(rows[7])\r\n        };\r\n    }\r\n\r\n    static getPlayers() {\r\n        let table = this.getPlayerTable();\r\n        let rows = Array.from(table.querySelectorAll('tr:nth-child(n+2)'));\r\n\r\n        let players = [];\r\n\r\n        for (let row of rows) {\r\n            let player = {\r\n                id: this.#getPlayerId(row.cells[0]),\r\n                name: this.#getPlayerName(row.cells[0]),\r\n                points: Number(row.cells[2].innerText.replace(',', '')),\r\n                rank: Number(row.cells[3].innerText),\r\n                ally: this.getAlly(),\r\n                villageCount: Number(row.cells[4].innerText)\r\n            };\r\n\r\n            players.push(player);\r\n        }\r\n\r\n        return players;\r\n    }\r\n\r\n    static getAttributesTable() {\r\n        return this.#getTableByIndex(this.#ATTRIBUTE_TABLE_INDEX);\r\n    }\r\n\r\n    static getPlayerTable() {\r\n        return this.#getTableByIndex(this.#PLAYER_TABLE_INDEX);\r\n    }\r\n\r\n    static #getPlayerName(cell) {\r\n        let playerAnchor = cell.querySelector('a');\r\n\r\n        return playerAnchor.innerText;\r\n    }\r\n\r\n    static #getBashpoints(cell) {\r\n        let bashpoints = cell.innerText;\r\n        bashpoints = bashpoints.substring(0, bashpoints.indexOf(' ') -1);\r\n\r\n        return Number(bashpoints.replace('.', ''));\r\n    }\r\n\r\n    static #getBashpointsRank(cell) {\r\n        let bashpointsRank = cell.innerText;\r\n        bashpointsRank = bashpointsRank.substring(bashpointsRank.indexOf('(') + 1, bashpointsRank.indexOf(')'));\r\n\r\n        return Number(bashpointsRank.replace('.', ''));\r\n    }\r\n\r\n    static #getPlayerId(cell) {\r\n        let playerAnchor = cell.querySelector('a');\r\n        let searchParams = new URLSearchParams(playerAnchor.href);\r\n\r\n        return Number(searchParams.get('id'));\r\n    }\r\n\r\n    static #getTableByIndex(index) {\r\n        return document.getElementsByClassName(this.#TABLE_CLASSNAME)[index];\r\n    }\r\n}\n\n//# sourceURL=webpack://tw-framework/./src/modules/screens/AllyScreen.js?");
+
+/***/ }),
+
+/***/ "./src/modules/screens/screens.js":
+/*!****************************************!*\
+  !*** ./src/modules/screens/screens.js ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"ScreensController\": () => (/* binding */ ScreensController)\n/* harmony export */ });\n/* harmony import */ var _AllyScreen__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AllyScreen */ \"./src/modules/screens/AllyScreen.js\");\n\r\n\r\nclass ScreensController {\r\n    constructor() {\r\n        this.InfoAllyScreen = new _AllyScreen__WEBPACK_IMPORTED_MODULE_0__.InfoAllyScreen();\r\n    }\r\n}\n\n//# sourceURL=webpack://tw-framework/./src/modules/screens/screens.js?");
+
+/***/ }),
+
+/***/ "./src/modules/world/world.js":
+/*!************************************!*\
+  !*** ./src/modules/world/world.js ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"World\": () => (/* binding */ World)\n/* harmony export */ });\nconst UNIT_INFO_URL = 'interface.php?func=get_unit_info';\r\n\r\nclass World {\r\n    constructor(unitInfo) {\r\n        this.world = game_data.world;\r\n        this.UnitInfo = unitInfo;\r\n    }\r\n\r\n    static async load() {\r\n        let unitInfo = await this.#loadUnitInfo();\r\n\r\n        debugger;\r\n        return new World(unitInfo);\r\n    }\r\n\r\n    static getUnitNames() {\r\n        return game_data.units;\r\n    }\r\n\r\n    static async #loadUnitInfo() {\r\n        let url = this.#getUnitInfoURL();\r\n        let response = await fetch(url);\r\n        let text = await response.text();\r\n\r\n        return this.#parseUnitInfo(text);\r\n    }\r\n\r\n    static #parseUnitInfo(text) {\r\n        let unitInfo = {};\r\n        const unitNames = this.getUnitNames();\r\n\r\n        let parser = new DOMParser();\r\n        let xml = parser.parseFromString(text, 'text/xml');\r\n        let rootNode = xml.querySelector('config');\r\n\r\n        for (const name of unitNames) {\r\n            let node = rootNode.querySelector(name);\r\n\r\n            let unit = window.TWFramework.ModelFactory.createUnit(\r\n                Number(node.querySelector('build_time').innerHTML),\r\n                Number(node.querySelector('pop').innerHTML),\r\n                Number(node.querySelector('speed').innerHTML),\r\n                Number(node.querySelector('attack').innerHTML),\r\n                Number(node.querySelector('defense').innerHTML),\r\n                Number(node.querySelector('defense_cavalry').innerHTML),\r\n                Number(node.querySelector('defense_archer').innerHTML),\r\n                Number(node.querySelector('carry').innerHTML)\r\n            );\r\n\r\n            unitInfo[name.charAt(0).toUpperCase() + name.slice(1)] = unit;\r\n        }\r\n\r\n        return unitInfo;\r\n    }\r\n\r\n    static #getUnitInfoURL() {\r\n        let url = new URL(window.location.href);\r\n        return `${url.origin}/${UNIT_INFO_URL}`;\r\n    }\r\n}\n\n//# sourceURL=webpack://tw-framework/./src/modules/world/world.js?");
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module can't be inlined because the eval devtool is used.
+/******/ 	var __webpack_exports__ = __webpack_require__("./src/lib.js");
+/******/ 	
+/******/ })()
+;

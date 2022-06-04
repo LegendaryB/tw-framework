@@ -2,7 +2,11 @@ import { World } from "./modules/world/world";
 import { ScreensController } from "./modules/screens/screens";
 import { ModelFactory } from "./models/factory";
 
-window.TWFramework = {};
-window.TWFramework.World = World;
-window.TWFramework.ScreenControllers = new ScreensController();
-window.TWFramework.ModelFactory = ModelFactory;
+(async () => {
+    window.TWFramework = {};
+    window.TWFramework.ModelFactory = ModelFactory;
+
+    window.TWFramework.World = await World.load();
+    window.TWFramework.ScreenControllers = new ScreensController();
+    
+})();
