@@ -5,7 +5,7 @@
 // @description  Add milliseconds to the confirm command screen. A target millisecond is configurable. The arrival time row will be painted red and flashes green when you should press the attack button.
 // @author       LegendaryB
 // @include      https://de*.die-staemme.de/game.php?**&screen=place&try=confirm
-// @resource     table_row_html https://raw.githubusercontent.com/LegendaryB/tw-framework/main/src/userscripts/addMilliseconds/table-template.html
+// @resource     table-row-template https://raw.githubusercontent.com/LegendaryB/tw-framework/main/src/userscripts/addMilliseconds/table-row-template.html
 // @resource     span-ms-template https://raw.githubusercontent.com/LegendaryB/tw-framework/main/src/userscripts/addMilliseconds/span-ms-template.html
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=die-staemme.de
 // @grant        GM_getResourceText
@@ -14,7 +14,7 @@
 (function () {
     'use strict';
 
-    const TABLE_ROW_TEMPLATE = GM_getResourceText('table_row_html');
+    const TABLE_ROW_TEMPLATE = GM_getResourceText('table-row-template');
     const SPAN_MS_TEMPLATE = GM_getResourceText('span-ms-template');
 
     $($('#command-data-form').find('tbody')[0]).append(TABLE_ROW_TEMPLATE);
