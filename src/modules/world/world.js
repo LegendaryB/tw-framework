@@ -1,3 +1,5 @@
+import { firstLetterToUpperCase } from "../../utils";
+
 const UNIT_INFO_URL = 'interface.php?func=get_unit_info';
 
 export class World {
@@ -47,7 +49,7 @@ export class World {
                 Number(node.querySelector('carry').innerHTML)
             );
 
-            unitInfo[name.charAt(0).toUpperCase() + name.slice(1)] = unit;
+            unitInfo[firstLetterToUpperCase(name)] = unit;
         }
 
         return unitInfo;
