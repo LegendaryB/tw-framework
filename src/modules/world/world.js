@@ -1,3 +1,4 @@
+import { ModelFactory } from "../../models/factory";
 import { firstLetterToUpperCase } from "../../utils";
 
 const UNIT_INFO_URL = 'interface.php?func=get_unit_info';
@@ -38,7 +39,7 @@ export class World {
         for (const name of unitNames) {
             let node = rootNode.querySelector(name);
 
-            let unit = window.TWFramework.ModelFactory.createUnit(
+            let unit = ModelFactory.createUnit(
                 Number(node.querySelector('build_time').innerHTML),
                 Number(node.querySelector('pop').innerHTML),
                 Number(node.querySelector('speed').innerHTML),
