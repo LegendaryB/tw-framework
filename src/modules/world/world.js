@@ -50,7 +50,8 @@ export class World {
                 Number(node.querySelector('carry').innerHTML)
             );
 
-            unitInfo[firstLetterToUpperCase(name)] = unit;
+            let unitKey = firstLetterToUpperCase(name);
+            unitInfo[unitKey] = unit;
         }
 
         return unitInfo;

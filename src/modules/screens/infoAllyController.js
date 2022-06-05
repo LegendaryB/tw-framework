@@ -1,10 +1,10 @@
-export class InfoAllyScreen {
-    static #TABLE_CLASSNAME = 'vis';
+export class InfoAllyController {
+    #TABLE_CLASSNAME = 'vis';
 
-    static #ATTRIBUTE_TABLE_INDEX = 0;
-    static #PLAYER_TABLE_INDEX = 1;
+    #ATTRIBUTE_TABLE_INDEX = 0;
+    #PLAYER_TABLE_INDEX = 1;
 
-    static getAlly() {
+    getAlly() {
         let table = this.getAttributesTable();
         let rows = Array.from(table.querySelectorAll('td:nth-child(2)'));
 
@@ -20,7 +20,7 @@ export class InfoAllyScreen {
         };
     }
 
-    static getPlayers() {
+    getPlayers() {
         let table = this.getPlayerTable();
         let rows = Array.from(table.querySelectorAll('tr:nth-child(n+2)'));
 
@@ -42,42 +42,42 @@ export class InfoAllyScreen {
         return players;
     }
 
-    static getAttributesTable() {
+    getAttributesTable() {
         return this.#getTableByIndex(this.#ATTRIBUTE_TABLE_INDEX);
     }
 
-    static getPlayerTable() {
+    getPlayerTable() {
         return this.#getTableByIndex(this.#PLAYER_TABLE_INDEX);
     }
 
-    static #getPlayerName(cell) {
+    #getPlayerName(cell) {
         let playerAnchor = cell.querySelector('a');
 
         return playerAnchor.innerText;
     }
 
-    static #getBashpoints(cell) {
+    #getBashpoints(cell) {
         let bashpoints = cell.innerText;
         bashpoints = bashpoints.substring(0, bashpoints.indexOf(' ') -1);
 
         return Number(bashpoints.replace('.', ''));
     }
 
-    static #getBashpointsRank(cell) {
+    #getBashpointsRank(cell) {
         let bashpointsRank = cell.innerText;
         bashpointsRank = bashpointsRank.substring(bashpointsRank.indexOf('(') + 1, bashpointsRank.indexOf(')'));
 
         return Number(bashpointsRank.replace('.', ''));
     }
 
-    static #getPlayerId(cell) {
+    #getPlayerId(cell) {
         let playerAnchor = cell.querySelector('a');
         let searchParams = new URLSearchParams(playerAnchor.href);
 
         return Number(searchParams.get('id'));
     }
 
-    static #getTableByIndex(index) {
+    #getTableByIndex(index) {
         return document.getElementsByClassName(this.#TABLE_CLASSNAME)[index];
     }
 }

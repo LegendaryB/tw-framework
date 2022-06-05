@@ -1,15 +1,17 @@
 // ==UserScript==
-// @name         Distance calculator2
+// @name         Distance calculator
 // @namespace    https://github.com/LegendaryB/tw-framework
 // @version      0.2
-// @description  try to take over the world!
+// @description  Lets you select two villages on the map and calculates the unit runtime.
 // @author       LegendaryB
 // @include		 https://de*.die-staemme.de/game.php*screen=map*
+// @require      https://https://raw.githubusercontent.com/LegendaryB/tw-framework/main/dist/framework.js
+// @resource     table-template https://raw.githubusercontent.com/LegendaryB/tw-framework/main/src/userscripts/distanceCalculator/table-template.html
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=die-staemme.de
-// @grant        none
+// @grant        GM_getResourceText
 // ==/UserScript==
 
-(function() {
+(async() => {
     'use strict';
 
     const win = typeof unsafeWindow != 'undefined' ? unsafeWindow : window;
@@ -123,46 +125,46 @@
         let html = `<table id="distance-calc-table" class="vis" style="border-spacing:0px;border-collapse:collapse;table-layout: fixed;" width="100%">
 		        <thead>
                     <tr>
-                        <th style="text-align:center"><a href="#" class="unit_link" data-unit="spear">
-                            <img src="https://dsde.innogamescdn.com/asset/f6f54c14/graphic/unit/unit_spear.png" title="Speerträger" alt="" class=""></a>
+                        <th style="text-align:center"><a href="#" class="unit_link">
+                            <img src="https://dsde.innogamescdn.com/asset/f6f54c14/graphic/unit/unit_spear.png"></a>
                         </th>
-                        <th style="text-align:center"><a href="#" class="unit_link" data-unit="sword">
-                            <img src="https://dsde.innogamescdn.com/asset/f6f54c14/graphic/unit/unit_sword.png" title="Schwertkämpfer" alt="" class=""></a>
+                        <th style="text-align:center"><a href="#" class="unit_link">
+                            <img src="https://dsde.innogamescdn.com/asset/f6f54c14/graphic/unit/unit_sword.png"></a>
                         </th>
-                        <th style="text-align:center"><a href="#" class="unit_link" data-unit="axe">
-                            <img src="https://dsde.innogamescdn.com/asset/f6f54c14/graphic/unit/unit_axe.png" title="Axtkämpfer" alt="" class=""></a>
+                        <th style="text-align:center"><a href="#" class="unit_link">
+                            <img src="https://dsde.innogamescdn.com/asset/f6f54c14/graphic/unit/unit_axe.png"></a>
                         </th>
-                        <th style="text-align:center"><a href="#" class="unit_link" data-unit="spy">
-                            <img src="https://dsde.innogamescdn.com/asset/f6f54c14/graphic/unit/unit_spy.png" title="Späher" alt="" class=""></a>
+                        <th style="text-align:center"><a href="#" class="unit_link">
+                            <img src="https://dsde.innogamescdn.com/asset/f6f54c14/graphic/unit/unit_spy.png"></a>
                         </th>
-                        <th style="text-align:center"><a href="#" class="unit_link" data-unit="light">
-                            <img src="https://dsde.innogamescdn.com/asset/f6f54c14/graphic/unit/unit_light.png" title="Leichte Kavallerie" alt="" class=""></a>
+                        <th style="text-align:center"><a href="#" class="unit_link">
+                            <img src="https://dsde.innogamescdn.com/asset/f6f54c14/graphic/unit/unit_light.png"></a>
                         </th>
-                        <th style="text-align:center"><a href="#" class="unit_link" data-unit="heavy">
-                            <img src="https://dsde.innogamescdn.com/asset/f6f54c14/graphic/unit/unit_heavy.png" title="Schwere Kavallerie" alt="" class=""></a>
+                        <th style="text-align:center"><a href="#" class="unit_link">
+                            <img src="https://dsde.innogamescdn.com/asset/f6f54c14/graphic/unit/unit_heavy.png"></a>
                         </th>
-                        <th style="text-align:center"><a href="#" class="unit_link" data-unit="ram">
-                            <img src="https://dsde.innogamescdn.com/asset/f6f54c14/graphic/unit/unit_ram.png" title="Rammbock" alt="" class=""></a>
+                        <th style="text-align:center"><a href="#" class="unit_link">
+                            <img src="https://dsde.innogamescdn.com/asset/f6f54c14/graphic/unit/unit_ram.png"></a>
                         </th>
-                        <th style="text-align:center"><a href="#" class="unit_link" data-unit="catapult">
-                            <img src="https://dsde.innogamescdn.com/asset/f6f54c14/graphic/unit/unit_catapult.png" title="Katapult" alt="" class=""></a>
+                        <th style="text-align:center"><a href="#" class="unit_link">
+                            <img src="https://dsde.innogamescdn.com/asset/f6f54c14/graphic/unit/unit_catapult.png"></a>
                         </th>
-                        <th style="text-align:center"><a href="#" class="unit_link" data-unit="snob">
-                            <img src="https://dsde.innogamescdn.com/asset/f6f54c14/graphic/unit/unit_snob.png" title="Katapult" alt="" class=""></a>
+                        <th style="text-align:center"><a href="#" class="unit_link">
+                            <img src="https://dsde.innogamescdn.com/asset/f6f54c14/graphic/unit/unit_snob.png"></a>
                         </th>
                     </tr>
 		        </thead>
                 <tbody>
                     <tr>
-                        <td style="text-align:center" data-unit="spear">${runtimes.Spear}</td>
-						<td style="text-align:center" data-unit="sword">${runtimes.Sword}</td>
-						<td style="text-align:center" data-unit="axe">${runtimes.Axe}</td>
-                        <td style="text-align:center" data-unit="spy">${runtimes.Spy}</td>
-                        <td style="text-align:center" data-unit="light">${runtimes.Light}</td>
-                        <td style="text-align:center" data-unit="heavy">${runtimes.Heavy}</td>
-                        <td style="text-align:center" data-unit="ram">${runtimes.Ram}</td>
-                        <td style="text-align:center" data-unit="catapult">${runtimes.Catapult}</td>
-                        <td style="text-align:center" data-unit="snob">${runtimes.Snob}</td>
+                        <td style="text-align:center">${runtimes.Spear}</td>
+						<td style="text-align:center">${runtimes.Sword}</td>
+						<td style="text-align:center">${runtimes.Axe}</td>
+                        <td style="text-align:center">${runtimes.Spy}</td>
+                        <td style="text-align:center">${runtimes.Light}</td>
+                        <td style="text-align:center">${runtimes.Heavy}</td>
+                        <td style="text-align:center">${runtimes.Ram}</td>
+                        <td style="text-align:center">${runtimes.Catapult}</td>
+                        <td style="text-align:center">${runtimes.Snob}</td>
 			        </tr>
 		        </tbody>
             </table>`;
