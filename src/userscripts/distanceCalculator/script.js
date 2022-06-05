@@ -11,43 +11,33 @@
 // @grant        GM_getResourceText
 // ==/UserScript==
 
-(async() => {
+(async () => {
     'use strict';
 
     const win = typeof unsafeWindow != 'undefined' ? unsafeWindow : window;
+
     const TABLE_TEMPLATE = GM_getResourceText('table-template');
 
-    let enabled = false;
-    let oldClickFunction;
-    let villages = [];
-    let villagesId = [];
+    let active = false;
+    let onClickFn;
 
-    const AXE_TRAVEL_TIME = 18;
-    const SPEAR_TRAVEL_TIME = 18;
-    const SWORD_TRAVEL_TIME = 22;
-    const SPY_TRAVEL_TIME = 9;
-    const LIGHT_TRAVEL_TIME = 10;
-    const HEAVY_TRAVEL_TIME = 11;
-    const RAM_TRAVEL_TIME = 30;
-    const CATAPULT_TRAVEL_TIME = 30;
-    const SNOB_TRAVEL_TIME = 35;
-
+    let villageArray = [];
 
     const run = () => {
-        enabled = true;
+        active = true;
         win.TWMap.mapHandler.integratedSpawnSector = win.TWMap.mapHandler.spawnSector;
         win.TWMap.mapHandler.spawnSector = spawnSector;
 
-        oldClickFunction = win.TWMap.mapHandler.onClick;
+        onClickFn = win.TWMap.mapHandler.onClick;
         win.TWMap.mapHandler.onClick = clickFunction;
         win.TWMap.reload();
     };
 
     const disable = () => {
-        enabled = false;
+        active = false;
         villages = [];
         villagesId = [];
-        win.TWMap.mapHandler.onClick = oldClickFunction;
+        win.TWMap.mapHandler.onClick = onClickFn;
         win.TWMap.mapHandler.spawnSector = win.TWMap.mapHandler.integratedSpawnSector;
         win.TWMap.reload();
 
@@ -56,19 +46,19 @@
 
     const spawnSector = (data, sector) => {
         win.TWMap.mapHandler.integratedSpawnSector(data, sector);
-        for (var i = 0; i < villagesId.length; i++) {
-            let villageId = villagesId[i];
-            if(villageId === null){
-                continue;
-            }
-            let v = $('#map_village_' + villageId);
-            $('<div class="DistanceCalculatorOverlay" id="DistanceCalculator_overlay_' + villageId + '" style="width:52px; height:37px; position: absolute; z-index: 50; left:' + $(v).css('left') + '; top: ' + $(v).css('top') + ';"></div>').appendTo(v.parent());
-            $('#DistanceCalculator_overlay_' + villageId).css('outline', '2px solid red');
+
+        for (let i = 0; i < villageArray.length; i++) {
+            let village = villageArray[i];
+
+            let v = $('#map_village_' + village.id);
+
+            $('<div class="DistanceCalculatorOverlay" id="DistanceCalculator_overlay_' + village.id + '" style="width:52px; height:37px; position: absolute; z-index: 50; left:' + $(v).css('left') + '; top: ' + $(v).css('top') + ';"></div>').appendTo(v.parent());
+            $('#DistanceCalculator_overlay_' + village.id).css('outline', '2px solid red');
         }
     }
 
     const convertTime = (input) => {
-        let input1 = Math.round( input * 60);
+        let input1 = Math.round(input * 60);
         let seconds = (input1 % 60);
         let input2 = Math.floor(input1 / 60);
         let minutes = input2 % 60;
@@ -83,13 +73,11 @@
     }
 
     const calculateDistance = () => {
-        let start = villages[0].split('|');
-        let startX = start[0];
-        let startY = start[1];
+        let startX = villageArray[0].X;
+        let startY = villageArray[0].Y;
 
-        let target = villages[1].split('|');
-        let targetX = target[0];
-        let targetY = target[1];
+        let targetX = villageArray[1].X;
+        let targetY = villageArray[1].Y;
 
         let xDis = startX - targetX;
         let yDis = startY - targetY;
@@ -97,19 +85,20 @@
         return Math.sqrt(xDis * xDis + yDis * yDis);
     }
 
-    const calculateRuntimes = () => {
+    const calculateUnitTravelTime = () => {
         let distance = calculateDistance();
+        let unitInfo = win.TWFramework.World.UnitInfo;
 
         return {
-            Axe: convertTime(AXE_TRAVEL_TIME * distance),
-            Sword: convertTime(SWORD_TRAVEL_TIME * distance),
-            Spear: convertTime(SPEAR_TRAVEL_TIME * distance),
-            Spy: convertTime(SPY_TRAVEL_TIME * distance),
-            Light: convertTime(LIGHT_TRAVEL_TIME * distance),
-            Heavy: convertTime(HEAVY_TRAVEL_TIME * distance),
-            Ram: convertTime(RAM_TRAVEL_TIME * distance),
-            Catapult: convertTime(CATAPULT_TRAVEL_TIME * distance),
-            Snob: convertTime(SNOB_TRAVEL_TIME * distance)
+            Axe: convertTime(unitInfo.Axe.Speed * distance),
+            Sword: convertTime(unitInfo.Sword.Speed * distance),
+            Spear: convertTime(unitInfo.Spear.Speed * distance),
+            Spy: convertTime(unitInfo.Spy.Speed * distance),
+            Light: convertTime(unitInfo.Light.Speed * distance),
+            Heavy: convertTime(unitInfo.Heavy.Speed * distance),
+            Ram: convertTime(unitInfo.Ram.Speed * distance),
+            Catapult: convertTime(unitInfo.Catapult.Speed * distance),
+            Snob: convertTime(unitInfo.Snob.Speed * distance)
         };
     }
 
@@ -120,91 +109,52 @@
         $('#DistanceCalculator_overlay_' + id).css('outline', '');
     }
 
-    const renderUI = () => {
-        let runtimes = calculateRuntimes();
+    const renderTravelTimeTable = () => {
+        let unitTravelTime = calculateUnitTravelTime();
+        let table = TABLE_TEMPLATE;
 
-        let html = `<table id="distance-calc-table" class="vis" style="border-spacing:0px;border-collapse:collapse;table-layout: fixed;" width="100%">
-		        <thead>
-                    <tr>
-                        <th style="text-align:center"><a href="#" class="unit_link">
-                            <img src="https://dsde.innogamescdn.com/asset/f6f54c14/graphic/unit/unit_spear.png"></a>
-                        </th>
-                        <th style="text-align:center"><a href="#" class="unit_link">
-                            <img src="https://dsde.innogamescdn.com/asset/f6f54c14/graphic/unit/unit_sword.png"></a>
-                        </th>
-                        <th style="text-align:center"><a href="#" class="unit_link">
-                            <img src="https://dsde.innogamescdn.com/asset/f6f54c14/graphic/unit/unit_axe.png"></a>
-                        </th>
-                        <th style="text-align:center"><a href="#" class="unit_link">
-                            <img src="https://dsde.innogamescdn.com/asset/f6f54c14/graphic/unit/unit_spy.png"></a>
-                        </th>
-                        <th style="text-align:center"><a href="#" class="unit_link">
-                            <img src="https://dsde.innogamescdn.com/asset/f6f54c14/graphic/unit/unit_light.png"></a>
-                        </th>
-                        <th style="text-align:center"><a href="#" class="unit_link">
-                            <img src="https://dsde.innogamescdn.com/asset/f6f54c14/graphic/unit/unit_heavy.png"></a>
-                        </th>
-                        <th style="text-align:center"><a href="#" class="unit_link">
-                            <img src="https://dsde.innogamescdn.com/asset/f6f54c14/graphic/unit/unit_ram.png"></a>
-                        </th>
-                        <th style="text-align:center"><a href="#" class="unit_link">
-                            <img src="https://dsde.innogamescdn.com/asset/f6f54c14/graphic/unit/unit_catapult.png"></a>
-                        </th>
-                        <th style="text-align:center"><a href="#" class="unit_link">
-                            <img src="https://dsde.innogamescdn.com/asset/f6f54c14/graphic/unit/unit_snob.png"></a>
-                        </th>
-                    </tr>
-		        </thead>
-                <tbody>
-                    <tr>
-                        <td style="text-align:center">${runtimes.Spear}</td>
-						<td style="text-align:center">${runtimes.Sword}</td>
-						<td style="text-align:center">${runtimes.Axe}</td>
-                        <td style="text-align:center">${runtimes.Spy}</td>
-                        <td style="text-align:center">${runtimes.Light}</td>
-                        <td style="text-align:center">${runtimes.Heavy}</td>
-                        <td style="text-align:center">${runtimes.Ram}</td>
-                        <td style="text-align:center">${runtimes.Catapult}</td>
-                        <td style="text-align:center">${runtimes.Snob}</td>
-			        </tr>
-		        </tbody>
-            </table>`;
+        for (const [unit, travelTime] of Object.entries(unitTravelTime)) {
+            table = table.replace(`%${unit.toUpperCase()}%`, travelTime);
+        }
 
         let template = document.createElement('template');
-        template.innerHTML = html;
+        template.innerHTML = table;
 
         $('#map_whole').after(template.content);
     }
 
-    const handleVillage = (x, y) => {
-        var coord = x + "|" + y;
-        var index = villages.indexOf(coord);
-        var village = win.TWMap.villages[(x) * 1000 + y];
-        if (!village) {
+    const handleVillage = async (x, y) => {
+        let village = {
+            id: win.TWMap.villages[(x) * 1000 + y].id,
+            X: x,
+            Y: y,
+            Coordinates: `${x}|${y}`
+        }
+
+        if (!village.id) {
             return;
         }
 
-        if (villages.length == 2) {
-            villages = [];
-            villagesId = [];
-
+        if (villageArray.length === 2) {
+            villageArray = [];
             $('#distance-calc-table').remove();
         }
 
-        if (index === -1) {
-            villages.push(coord);
-            villagesId.push(village.id);
-            markVillageAsSelected(village.id);
-            win.TWMap.reload();
-        } else {
-            villages[index] = null;
-            var indexId = villagesId.indexOf(village.id);
-            villagesId[indexId] = null;
+        let index = villageArray.findIndex(v => v.id === village.id);
+        let alreadySelected = index !== -1;
+
+        if (alreadySelected) {
+            villageArray[index] = null;
             demarkVillageAsSelected(village.id);
         }
+        else {
+            villageArray.push(village);
+            markVillageAsSelected(village.id);
+            win.TWMap.reload();
+        }
 
-        if (villages.length == 2) {
-            renderUI();
+        if (villageArray.length == 2) {
+            renderTravelTimeTable();
         }
     }
 
@@ -216,7 +166,7 @@
     $(document).ready(() => {
         $(document).on("keypress", (e) => {
             if (String.fromCharCode(e.which) == 'd') {
-                if (enabled == false) {
+                if (!active) {
                     run();
                 } else {
                     disable();
