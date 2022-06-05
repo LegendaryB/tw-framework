@@ -2,10 +2,12 @@ import { World } from "./modules/world/world";
 import { ScreenControllerFactory } from "./modules/screens/factory";
 import { ModelFactory } from "./models/factory";
 
-(async () => {
-    window.TWFramework = {};
-    window.TWFramework.ModelFactory = ModelFactory;
-    window.TWFramework.ScreenControllerFactory = ScreenControllerFactory;
+const win = typeof unsafeWindow != 'undefined' ? unsafeWindow : window;
 
-    window.TWFramework.World = await World.load();
+(async () => {
+    win.TWFramework = {};
+    win.TWFramework.ModelFactory = ModelFactory;
+    win.TWFramework.ScreenControllerFactory = ScreenControllerFactory;
+
+    win.TWFramework.World = await World.load();
 })();

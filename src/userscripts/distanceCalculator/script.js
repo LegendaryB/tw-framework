@@ -5,7 +5,7 @@
 // @description  Lets you select two villages on the map and calculates the unit runtime.
 // @author       LegendaryB
 // @include		 https://de*.die-staemme.de/game.php*screen=map*
-// @require      https://https://raw.githubusercontent.com/LegendaryB/tw-framework/main/dist/framework.js
+// @require      https://raw.githubusercontent.com/LegendaryB/tw-framework/main/dist/framework.js
 // @resource     table-template https://raw.githubusercontent.com/LegendaryB/tw-framework/main/src/userscripts/distanceCalculator/table-template.html
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=die-staemme.de
 // @grant        GM_getResourceText
@@ -15,6 +15,7 @@
     'use strict';
 
     const win = typeof unsafeWindow != 'undefined' ? unsafeWindow : window;
+    const TABLE_TEMPLATE = GM_getResourceText('table-template');
 
     let enabled = false;
     let oldClickFunction;
