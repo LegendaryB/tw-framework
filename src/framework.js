@@ -4,6 +4,8 @@ import { ModelFactory } from "./models/factory";
 
 const win = typeof unsafeWindow != 'undefined' ? unsafeWindow : window;
 
+console.log("Framework initialization..");
+
 (async () => {
     win.TWFramework = {};
     win.TWFramework.ModelFactory = ModelFactory;
