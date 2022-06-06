@@ -1,6 +1,5 @@
 export class Unit {
-    constructor(name, buildTime, population, speed, attack, defense, defenseCavalry, defenseArcher, carry) {
-        this.Name = name;
+    constructor(buildTime, population, speed, attack, defense, defenseCavalry, defenseArcher, carry) {
         this.BuildTime = buildTime;
         this.Population = population;
         this.Speed = speed;

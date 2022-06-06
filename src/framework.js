@@ -5,9 +5,11 @@ import { ModelFactory } from "./models/factory";
 const win = typeof unsafeWindow != 'undefined' ? unsafeWindow : window;
 
 (async () => {
-    win.TWFramework = {};
-    win.TWFramework.ModelFactory = ModelFactory;
-    win.TWFramework.ScreenControllerFactory = ScreenControllerFactory;
+    if (!window.TWFramework) {
+        win.TWFramework = {};
+        win.TWFramework.ModelFactory = ModelFactory;
+        win.TWFramework.ScreenControllerFactory = ScreenControllerFactory;
 
-    win.TWFramework.World = await World.load();
+        win.TWFramework.World = await World.load();
+    }
 })();

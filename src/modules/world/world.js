@@ -11,8 +11,7 @@ export class World {
 
     static async load() {
         let unitInfo = await this.#loadUnitInfo();
-
-        debugger;
+        
         return new World(unitInfo);
     }
 

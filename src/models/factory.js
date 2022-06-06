@@ -15,9 +15,9 @@ export class ModelFactory {
         );
     }
 
-    static createUnit(name, buildTime, population, speed, attack, defense, defenseCavalry, defenseArcher, carry) {
+    static createUnit(buildTime, population, speed, attack, defense, defenseCavalry, defenseArcher, carry) {
         return new Unit(
-            name, buildTime, population, speed, attack, defense, defenseCavalry, defenseArcher, carry
+            buildTime, population, speed, attack, defense, defenseCavalry, defenseArcher, carry
         );
     }
 }
