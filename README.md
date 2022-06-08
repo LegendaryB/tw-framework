@@ -12,5 +12,5 @@ JavaScript framework for the famous browsergame "Die Stämme".
 
 ## 🚀 How to use it?
 
-Just reference/embed the framework.js from the `dist` folder:
+Just reference/embed the framework.js from the `dist` folder  
 `https://raw.githubusercontent.com/LegendaryB/tw-framework/main/dist/framework.js`
