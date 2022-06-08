@@ -10,8 +10,8 @@
 
 // User configuration
 const CONFIG = {
-    COLOR_ORANGE_OFFSET: 800,
-    COLOR_RED_OFFSET: 300,
+    COLOR_ORANGE_THRESHOLD: 800,
+    COLOR_RED_THRESHOLD: 300,
     USE_COLOR_GREEN: true
 };
 
@@ -33,10 +33,10 @@ const CONFIG = {
 
         let sum = available - used;
 
-        if (between(sum, CONFIG.COLOR_RED_OFFSET, CONFIG.COLOR_ORANGE_OFFSET)) {
+        if (between(sum, CONFIG.COLOR_RED_THRESHOLD, CONFIG.COLOR_ORANGE_THRESHOLD)) {
             cell.innerHTML = `<span style="color: orange;">${cell.innerText}</span>`;
         }
-        else if (between(sum, 0, CONFIG.COLOR_RED_OFFSET)) {
+        else if (between(sum, 0, CONFIG.COLOR_RED_THRESHOLD)) {
             cell.innerHTML = `<span style="color: red;">${cell.innerText}</span>`;
         }
         else if (CONFIG.USE_COLOR_GREEN) {
