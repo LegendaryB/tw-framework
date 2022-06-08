@@ -1,6 +1,5 @@
 import { Ally } from "./ally";
 import { Player } from "./player";
-import { Unit } from "./unit";
 
 export class ModelFactory {
     static createAlly(id, name, tag, playerCount, points, rank, bashpoints, bashpointsRank) {
@@ -12,12 +11,6 @@ export class ModelFactory {
     static createPlayer(id, name, points, rank, ally, villageCount) {
         return new Player(
             id, name, points, rank, ally, villageCount
-        );
-    }
-
-    static createUnit(buildTime, population, speed, attack, defense, defenseCavalry, defenseArcher, carry) {
-        return new Unit(
-            buildTime, population, speed, attack, defense, defenseCavalry, defenseArcher, carry
         );
     }
 }

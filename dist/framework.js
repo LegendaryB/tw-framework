@@ -36,7 +36,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \*******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"ModelFactory\": () => (/* binding */ ModelFactory)\n/* harmony export */ });\n/* harmony import */ var _ally__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ally */ \"./src/models/ally.js\");\n/* harmony import */ var _player__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./player */ \"./src/models/player.js\");\n/* harmony import */ var _unit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./unit */ \"./src/models/unit.js\");\n\r\n\r\n\r\n\r\nclass ModelFactory {\r\n    static createAlly(id, name, tag, playerCount, points, rank, bashpoints, bashpointsRank) {\r\n        return new _ally__WEBPACK_IMPORTED_MODULE_0__.Ally(\r\n            id, name, tag, playerCount, points, rank, bashpoints, bashpointsRank\r\n        );\r\n    }\r\n\r\n    static createPlayer(id, name, points, rank, ally, villageCount) {\r\n        return new _player__WEBPACK_IMPORTED_MODULE_1__.Player(\r\n            id, name, points, rank, ally, villageCount\r\n        );\r\n    }\r\n\r\n    static createUnit(buildTime, population, speed, attack, defense, defenseCavalry, defenseArcher, carry) {\r\n        return new _unit__WEBPACK_IMPORTED_MODULE_2__.Unit(\r\n            buildTime, population, speed, attack, defense, defenseCavalry, defenseArcher, carry\r\n        );\r\n    }\r\n}\n\n//# sourceURL=webpack://tw-framework/./src/models/factory.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"ModelFactory\": () => (/* binding */ ModelFactory)\n/* harmony export */ });\n/* harmony import */ var _ally__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ally */ \"./src/models/ally.js\");\n/* harmony import */ var _player__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./player */ \"./src/models/player.js\");\n\r\n\r\n\r\nclass ModelFactory {\r\n    static createAlly(id, name, tag, playerCount, points, rank, bashpoints, bashpointsRank) {\r\n        return new _ally__WEBPACK_IMPORTED_MODULE_0__.Ally(\r\n            id, name, tag, playerCount, points, rank, bashpoints, bashpointsRank\r\n        );\r\n    }\r\n\r\n    static createPlayer(id, name, points, rank, ally, villageCount) {\r\n        return new _player__WEBPACK_IMPORTED_MODULE_1__.Player(\r\n            id, name, points, rank, ally, villageCount\r\n        );\r\n    }\r\n}\n\n//# sourceURL=webpack://tw-framework/./src/models/factory.js?");
 
 /***/ }),
 
@@ -47,16 +47,6 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"Player\": () => (/* binding */ Player)\n/* harmony export */ });\nclass Player {\r\n    constructor(id, name, points, rank, ally, villageCount) {\r\n        this.id = id;\r\n        this.name = name;\r\n        this.points = points;\r\n        this.rank = rank;\r\n        this.ally = ally;\r\n        this.villageCount = villageCount;\r\n    }\r\n}\n\n//# sourceURL=webpack://tw-framework/./src/models/player.js?");
-
-/***/ }),
-
-/***/ "./src/models/unit.js":
-/*!****************************!*\
-  !*** ./src/models/unit.js ***!
-  \****************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"Unit\": () => (/* binding */ Unit)\n/* harmony export */ });\nclass Unit {\r\n    constructor(buildTime, population, speed, attack, defense, defenseCavalry, defenseArcher, carry) {\r\n        this.BuildTime = buildTime;\r\n        this.Population = population;\r\n        this.Speed = speed;\r\n        this.Attack = attack;\r\n        this.Defense = defense;\r\n        this.DefenseCavalry = defenseCavalry;\r\n        this.DefenseArcher = defenseArcher;\r\n        this.Carry = carry;\r\n    }\r\n}\n\n//# sourceURL=webpack://tw-framework/./src/models/unit.js?");
 
 /***/ }),
 
@@ -90,16 +80,6 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
-/***/ "./src/modules/world/building_info.js":
-/*!********************************************!*\
-  !*** ./src/modules/world/building_info.js ***!
-  \********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"BuildingInfo\": () => (/* binding */ BuildingInfo)\n/* harmony export */ });\n/* harmony import */ var _fetch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./fetch */ \"./src/modules/world/fetch.js\");\n\r\n\r\nconst BUILDING_INFO_URL = 'interface.php?func=get_building_info';\r\n\r\nclass BuildingInfo {\r\n    static async load() {\r\n        let data = (0,_fetch__WEBPACK_IMPORTED_MODULE_0__.fetchEndpoint)(BUILDING_INFO_URL);\r\n\r\n        return this.#parseUnitInfo(data);\r\n    }\r\n\r\n    static #parseUnitInfo(text) {\r\n        let unitInfo = {};\r\n\r\n        let parser = new DOMParser();\r\n        let xml = parser.parseFromString(text, 'text/xml');\r\n        let rootNode = xml.querySelector('config');\r\n\r\n        for (const child of rootNode) {\r\n            let unit = ModelFactory.createUnit(\r\n                Number(node.querySelector('build_time').innerHTML),\r\n                Number(node.querySelector('pop').innerHTML),\r\n                Number(node.querySelector('speed').innerHTML),\r\n                Number(node.querySelector('attack').innerHTML),\r\n                Number(node.querySelector('defense').innerHTML),\r\n                Number(node.querySelector('defense_cavalry').innerHTML),\r\n                Number(node.querySelector('defense_archer').innerHTML),\r\n                Number(node.querySelector('carry').innerHTML)\r\n            );\r\n\r\n            let unitKey = firstLetterToUpperCase(child.localName);\r\n            unitInfo[unitKey] = unit;\r\n        }\r\n\r\n        return unitInfo;\r\n    }\r\n}\n\n//# sourceURL=webpack://tw-framework/./src/modules/world/building_info.js?");
-
-/***/ }),
-
 /***/ "./src/modules/world/fetch.js":
 /*!************************************!*\
   !*** ./src/modules/world/fetch.js ***!
@@ -110,13 +90,13 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
-/***/ "./src/modules/world/unit_info.js":
-/*!****************************************!*\
-  !*** ./src/modules/world/unit_info.js ***!
-  \****************************************/
+/***/ "./src/modules/world/parser.js":
+/*!*************************************!*\
+  !*** ./src/modules/world/parser.js ***!
+  \*************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"UnitInfo\": () => (/* binding */ UnitInfo)\n/* harmony export */ });\n/* harmony import */ var _models_factory__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../models/factory */ \"./src/models/factory.js\");\n/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils */ \"./src/utils.js\");\n/* harmony import */ var _fetch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./fetch */ \"./src/modules/world/fetch.js\");\n\r\n\r\n\r\n\r\nconst UNIT_INFO_URL = 'interface.php?func=get_unit_info';\r\n\r\nclass UnitInfo {\r\n    static async load() {\r\n        let data = (0,_fetch__WEBPACK_IMPORTED_MODULE_2__.fetchEndpoint)(UNIT_INFO_URL);\r\n\r\n        return this.#parseUnitInfo(data);\r\n    }\r\n\r\n    static #parseUnitInfo(text) {\r\n        let unitInfo = {};\r\n        const unitNames = this.#getUnitNames();\r\n\r\n        let parser = new DOMParser();\r\n        let xml = parser.parseFromString(text, 'text/xml');\r\n        let rootNode = xml.querySelector('config');\r\n\r\n        for (const name of unitNames) {\r\n            let node = rootNode.querySelector(name);\r\n\r\n            let unit = _models_factory__WEBPACK_IMPORTED_MODULE_0__.ModelFactory.createUnit(\r\n                Number(node.querySelector('build_time').innerHTML),\r\n                Number(node.querySelector('pop').innerHTML),\r\n                Number(node.querySelector('speed').innerHTML),\r\n                Number(node.querySelector('attack').innerHTML),\r\n                Number(node.querySelector('defense').innerHTML),\r\n                Number(node.querySelector('defense_cavalry').innerHTML),\r\n                Number(node.querySelector('defense_archer').innerHTML),\r\n                Number(node.querySelector('carry').innerHTML)\r\n            );\r\n\r\n            let unitKey = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.firstLetterToUpperCase)(name);\r\n            unitInfo[unitKey] = unit;\r\n        }\r\n\r\n        return unitInfo;\r\n    }\r\n\r\n    static #getUnitNames() {\r\n        return game_data.units;\r\n    }\r\n}\n\n//# sourceURL=webpack://tw-framework/./src/modules/world/unit_info.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"parseXML\": () => (/* binding */ parseXML)\n/* harmony export */ });\nconst parseXML = (data) => {\r\n    let obj = {};\r\n\r\n    let parser = new DOMParser();\r\n    let xml = parser.parseFromString(data, 'text/xml');\r\n    let rootNode = xml.querySelector('config');\r\n\r\n    for (const node of rootNode.children) {\r\n        let key = firstLetterToUpperCase(node.localName);\r\n        obj[key] = {};\r\n\r\n        for (const propNode in node.children) {\r\n            let propertyKey = firstLetterToUpperCase(propNode.localName);\r\n\r\n            obj[key][propertyKey] = Number(propNode.innerHTML);\r\n        }\r\n    }\r\n\r\n    return obj;\r\n}\n\n//# sourceURL=webpack://tw-framework/./src/modules/world/parser.js?");
 
 /***/ }),
 
@@ -126,17 +106,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"World\": () => (/* binding */ World)\n/* harmony export */ });\n/* harmony import */ var _building_info__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./building_info */ \"./src/modules/world/building_info.js\");\n/* harmony import */ var _unit_info__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./unit_info */ \"./src/modules/world/unit_info.js\");\n\r\n\r\n\r\nclass World {\r\n    constructor(unitInfo, buildingInfo) {\r\n        this.world = game_data.world;\r\n        this.UnitInfo = unitInfo;\r\n        this.BuildingInfo = buildingInfo;\r\n    }\r\n\r\n    static async load() {\r\n        let unitInfo = await _unit_info__WEBPACK_IMPORTED_MODULE_1__.UnitInfo.load();\r\n        let buildingInfo = await _building_info__WEBPACK_IMPORTED_MODULE_0__.BuildingInfo.load();\r\n        \r\n        return new World(unitInfo, buildingInfo);\r\n    }\r\n}\n\n//# sourceURL=webpack://tw-framework/./src/modules/world/world.js?");
-
-/***/ }),
-
-/***/ "./src/utils.js":
-/*!**********************!*\
-  !*** ./src/utils.js ***!
-  \**********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"firstLetterToUpperCase\": () => (/* binding */ firstLetterToUpperCase)\n/* harmony export */ });\nconst firstLetterToUpperCase = (value) => {\r\n    return value.charAt(0).toUpperCase() + value.slice(1)\r\n}\n\n//# sourceURL=webpack://tw-framework/./src/utils.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"World\": () => (/* binding */ World)\n/* harmony export */ });\n/* harmony import */ var _fetch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./fetch */ \"./src/modules/world/fetch.js\");\n/* harmony import */ var _parser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./parser */ \"./src/modules/world/parser.js\");\n\r\n\r\n\r\nconst UNIT_INFO_URL = 'interface.php?func=get_unit_info';\r\nconst BUILDING_INFO_URL = 'interface.php?func=get_building_info';\r\n\r\nclass World {\r\n    constructor(unitInfo, buildingInfo) {\r\n        this.world = game_data.world;\r\n        this.UnitInfo = unitInfo;\r\n        this.BuildingInfo = buildingInfo;\r\n    }\r\n\r\n    static async load() {\r\n        let unitInfo = await this.#loadInfo(UNIT_INFO_URL);\r\n        let buildingInfo = await this.#loadInfo(BUILDING_INFO_URL);\r\n        \r\n        return new World(unitInfo, buildingInfo);\r\n    }\r\n\r\n    static async #loadInfo(infoURL) {\r\n        let data = await (0,_fetch__WEBPACK_IMPORTED_MODULE_0__.fetchEndpoint)(infoURL);\r\n        return (0,_parser__WEBPACK_IMPORTED_MODULE_1__.parseXML)(data);\r\n    }\r\n}\n\n//# sourceURL=webpack://tw-framework/./src/modules/world/world.js?");
 
 /***/ })
 
