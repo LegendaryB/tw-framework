@@ -4,7 +4,7 @@
 // @version      0.2
 // @description  Inserts two button in the report overview to select all reports from today or yesterday.
 // @author       LegendaryB
-// @match        https://*.die-staemme.de/game.php?*&screen=report
+// @match        https://*.die-staemme.de/game.php?*&screen=report*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=die-staemme.de
 // @grant        none
 // ==/UserScript==
