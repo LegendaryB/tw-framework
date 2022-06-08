@@ -1,3 +1,5 @@
+import { firstLetterToUpperCase } from "../../utils";
+
 export const parseXML = (data) => {
     let obj = {};
 
@@ -11,7 +13,7 @@ export const parseXML = (data) => {
 
         for (const propNode in node.children) {
             let propertyKey = firstLetterToUpperCase(propNode.localName);
-
+            
             obj[key][propertyKey] = Number(propNode.innerHTML);
         }
     }

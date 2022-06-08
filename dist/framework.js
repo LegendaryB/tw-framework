@@ -96,7 +96,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \*************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"parseXML\": () => (/* binding */ parseXML)\n/* harmony export */ });\nconst parseXML = (data) => {\r\n    let obj = {};\r\n\r\n    let parser = new DOMParser();\r\n    let xml = parser.parseFromString(data, 'text/xml');\r\n    let rootNode = xml.querySelector('config');\r\n\r\n    for (const node of rootNode.children) {\r\n        let key = firstLetterToUpperCase(node.localName);\r\n        obj[key] = {};\r\n\r\n        for (const propNode in node.children) {\r\n            let propertyKey = firstLetterToUpperCase(propNode.localName);\r\n\r\n            obj[key][propertyKey] = Number(propNode.innerHTML);\r\n        }\r\n    }\r\n\r\n    return obj;\r\n}\n\n//# sourceURL=webpack://tw-framework/./src/modules/world/parser.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"parseXML\": () => (/* binding */ parseXML)\n/* harmony export */ });\n/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils */ \"./src/utils.js\");\n\r\n\r\nconst parseXML = (data) => {\r\n    let obj = {};\r\n\r\n    let parser = new DOMParser();\r\n    let xml = parser.parseFromString(data, 'text/xml');\r\n    let rootNode = xml.querySelector('config');\r\n\r\n    for (const node of rootNode.children) {\r\n        let key = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.firstLetterToUpperCase)(node.localName);\r\n        obj[key] = {};\r\n\r\n        for (const propNode in node.children) {\r\n            let propertyKey = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.firstLetterToUpperCase)(propNode.localName);\r\n            \r\n            obj[key][propertyKey] = Number(propNode.innerHTML);\r\n        }\r\n    }\r\n\r\n    return obj;\r\n}\n\n//# sourceURL=webpack://tw-framework/./src/modules/world/parser.js?");
 
 /***/ }),
 
@@ -107,6 +107,16 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"World\": () => (/* binding */ World)\n/* harmony export */ });\n/* harmony import */ var _fetch__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./fetch */ \"./src/modules/world/fetch.js\");\n/* harmony import */ var _parser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./parser */ \"./src/modules/world/parser.js\");\n\r\n\r\n\r\nconst UNIT_INFO_URL = 'interface.php?func=get_unit_info';\r\nconst BUILDING_INFO_URL = 'interface.php?func=get_building_info';\r\n\r\nclass World {\r\n    constructor(unitInfo, buildingInfo) {\r\n        this.world = game_data.world;\r\n        this.UnitInfo = unitInfo;\r\n        this.BuildingInfo = buildingInfo;\r\n    }\r\n\r\n    static async load() {\r\n        let unitInfo = await this.#loadInfo(UNIT_INFO_URL);\r\n        let buildingInfo = await this.#loadInfo(BUILDING_INFO_URL);\r\n        \r\n        return new World(unitInfo, buildingInfo);\r\n    }\r\n\r\n    static async #loadInfo(infoURL) {\r\n        let data = await (0,_fetch__WEBPACK_IMPORTED_MODULE_0__.fetchEndpoint)(infoURL);\r\n        return (0,_parser__WEBPACK_IMPORTED_MODULE_1__.parseXML)(data);\r\n    }\r\n}\n\n//# sourceURL=webpack://tw-framework/./src/modules/world/world.js?");
+
+/***/ }),
+
+/***/ "./src/utils.js":
+/*!**********************!*\
+  !*** ./src/utils.js ***!
+  \**********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"firstLetterToUpperCase\": () => (/* binding */ firstLetterToUpperCase)\n/* harmony export */ });\nconst firstLetterToUpperCase = (value) => {\r\n    return value.charAt(0).toUpperCase() + value.slice(1)\r\n}\n\n//# sourceURL=webpack://tw-framework/./src/utils.js?");
 
 /***/ })
 
