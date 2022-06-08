@@ -116,7 +116,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
   \**********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"firstLetterToUpperCase\": () => (/* binding */ firstLetterToUpperCase)\n/* harmony export */ });\nconst firstLetterToUpperCase = (value) => {\r\n    return value.charAt(0).toUpperCase() + value.slice(1)\r\n}\n\n//# sourceURL=webpack://tw-framework/./src/utils.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"between\": () => (/* binding */ between),\n/* harmony export */   \"firstLetterToUpperCase\": () => (/* binding */ firstLetterToUpperCase)\n/* harmony export */ });\nconst between = (x, min, max) => {\r\n    return x >= min && x <= max;\r\n}\r\n\r\nconst firstLetterToUpperCase = (value) => {\r\n    return value.charAt(0).toUpperCase() + value.slice(1)\r\n}\n\n//# sourceURL=webpack://tw-framework/./src/utils.js?");
 
 /***/ })
 
