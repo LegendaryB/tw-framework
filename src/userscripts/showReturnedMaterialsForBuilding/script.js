@@ -1,69 +1,182 @@
 // ==UserScript==
-// @name         Rohstoffe beim Abbrechen eines Gebäudes anzeigen
+// @name         Distanz zwischen zwei Dörfern berechnen
 // @namespace    https://github.com/LegendaryB/tw-framework
-// @version      0.1
+// @version      0.3
 // @author       LegendaryB
-// @match        https://*.die-staemme.de/game.php?*&screen=main*
+// @include		 https://de*.die-staemme.de/game.php*screen=map*
 // @require      https://raw.githubusercontent.com/LegendaryB/tw-framework/main/dist/framework.js
+// @resource     table-template https://raw.githubusercontent.com/LegendaryB/tw-framework/main/src/userscripts/distanceCalculator/table-template.html
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=die-staemme.de
-// @grant        none
+// @grant        GM_getResourceText
 // ==/UserScript==
 
-(function() {
+(async () => {
     'use strict';
 
     const win = typeof unsafeWindow != 'undefined' ? unsafeWindow : window;
 
-    const BUILD_ORDER_ELEMENTS = document.querySelectorAll('[class*="buildorder_"]');
+    const TABLE_TEMPLATE = GM_getResourceText('table-template');
 
-    const getBuildingName = (element) => {
-        let foundClassName = '';
+    let active = false;
+    let onClickFn;
 
-        for (const className of element.classList) {
-            if (className.includes('buildorder_')) {
-                foundClassName = className;
-                break;
-            }
-        }
+    let villageArray = [];
 
-        let name = foundClassName.split('_')[1];
-        name = name.charAt(0).toUpperCase() + name.slice(1);
+    const run = () => {
+        active = true;
+        win.TWMap.mapHandler.integratedSpawnSector = win.TWMap.mapHandler.spawnSector;
+        win.TWMap.mapHandler.spawnSector = spawnSector;
 
-        return name;
+        onClickFn = win.TWMap.mapHandler.onClick;
+        win.TWMap.mapHandler.onClick = clickFunction;
+        win.TWMap.reload();
     };
 
-    const getBuildingLevel = (element) => {
-        let level = element.cells[0].lastChild.data.trim();
-        level = level.substring(level.length - 2, level.length);
+    const disable = () => {
+        active = false;
+        win.TWMap.mapHandler.onClick = onClickFn;
+        win.TWMap.mapHandler.spawnSector = win.TWMap.mapHandler.integratedSpawnSector;
+        win.TWMap.reload();
 
-        return Number(level) - 1;
+        $('#distance-calc-table').remove();
+    };
+
+    const spawnSector = (data, sector) => {
+        win.TWMap.mapHandler.integratedSpawnSector(data, sector);
+
+        for (let i = 0; i < villageArray.length; i++) {
+            let village = villageArray[i];
+
+            let v = $('#map_village_' + village.id);
+
+            $('<div class="DistanceCalculatorOverlay" id="DistanceCalculator_overlay_' + village.id + '" style="width:52px; height:37px; position: absolute; z-index: 50; left:' + $(v).css('left') + '; top: ' + $(v).css('top') + ';"></div>').appendTo(v.parent());
+            $('#DistanceCalculator_overlay_' + village.id).css('outline', '2px solid red');
+        }
     }
 
-    const calculate = (building, level) => {
-        const buildingInfo = win.TWFramework.World.BuildingInfo[building];
+    const formatTime = (input) => {
+        return input < 10 ? `0${input}` : input;
+    }
+
+    const convertTime = (input) => {
+        let input1 = Math.round(input * 60);
+        let seconds = (input1 % 60);
+        let input2 = Math.floor(input1 / 60);
+        let minutes = input2 % 60;
+        let input3 = Math.floor(input2 / 60);
+        let hours = input3 % 24;
+        let days = Math.floor(input3 / 24);
+
+        if (days > 0) {
+            return `${days} Tag(e) ${formatTime(hours)}:${formatTime(minutes)}:${formatTime(seconds)}`;
+        }
+        else {
+            return `${formatTime(hours)}:${formatTime(minutes)}:${formatTime(seconds)}`;
+        }
+    }
+
+    const calculateDistance = () => {
+        let startX = villageArray[0].X;
+        let startY = villageArray[0].Y;
+
+        let targetX = villageArray[1].X;
+        let targetY = villageArray[1].Y;
+
+        let xDis = startX - targetX;
+        let yDis = startY - targetY;
+
+        return Math.sqrt(xDis * xDis + yDis * yDis);
+    }
+
+    const calculateUnitTravelTime = () => {
+        let distance = calculateDistance();
+        let unitInfo = win.TWFramework.World.UnitInfo;
+
+        debugger;
 
         return {
-            Wood: Math.round(buildingInfo.Wood * Math.pow(buildingInfo.WoodFactor, level)),
-            Stone: Math.round(buildingInfo.Stone * Math.pow(buildingInfo.StoneFactor, level)),
-            Iron: Math.round(buildingInfo.Iron * Math.pow(buildingInfo.IronFactor, level))
+            Axe: convertTime(unitInfo.Axe.Speed * distance),
+            Sword: convertTime(unitInfo.Sword.Speed * distance),
+            Spear: convertTime(unitInfo.Spear.Speed * distance),
+            Spy: convertTime(unitInfo.Spy.Speed * distance),
+            Light: convertTime(unitInfo.Light.Speed * distance),
+            Heavy: convertTime(unitInfo.Heavy.Speed * distance),
+            Ram: convertTime(unitInfo.Ram.Speed * distance),
+            Catapult: convertTime(unitInfo.Catapult.Speed * distance),
+            Snob: convertTime(unitInfo.Snob.Speed * distance)
         };
-    };
+    }
 
-    const createToolTip = (element, values) => {
-        element.setAttribute('title', `Wood: ${values.Wood}, Stone: ${values.Stone}, Iron: ${values.Iron}`);
-    };
+    const markVillageAsSelected = (id) => {
+        $('#DistanceCalculator_overlay_' + id).css('outline', '2px solid red');
+    }
+    const demarkVillageAsSelected = (id) => {
+        $('#DistanceCalculator_overlay_' + id).css('outline', '');
+    }
 
-    const handleMouseOver = (event) => {
-        let parentTableRowElement = event.target.closest('tr');
-        let building = getBuildingName(parentTableRowElement);
-        let level = getBuildingLevel(parentTableRowElement);
+    const renderTravelTimeTable = () => {
+        let unitTravelTime = calculateUnitTravelTime();
+        let table = TABLE_TEMPLATE;
 
-        let values = calculate(building, level);
+        for (const [unit, travelTime] of Object.entries(unitTravelTime)) {
+            table = table.replace(`%${unit.toUpperCase()}%`, travelTime);
+        }
 
-        createToolTip(event.target, values);
-    };
+        let template = document.createElement('template');
+        template.innerHTML = table;
 
-    for (const element of BUILD_ORDER_ELEMENTS) {
-        element.querySelector('.btn-cancel').addEventListener('mouseover', handleMouseOver);
-    };
+        $('#map_whole').after(template.content);
+    }
+
+    const handleVillage = async (x, y) => {
+        let village = {
+            id: win.TWMap.villages[(x) * 1000 + y].id,
+            X: x,
+            Y: y,
+            Coordinates: `${x}|${y}`
+        }
+
+        if (!village.id) {
+            return;
+        }
+
+        if (villageArray.length === 2) {
+            villageArray = [];
+            $('#distance-calc-table').remove();
+        }
+
+        let index = villageArray.findIndex(v => v.id === village.id);
+        let alreadySelected = index !== -1;
+
+        if (alreadySelected) {
+            villageArray[index] = null;
+            demarkVillageAsSelected(village.id);
+        }
+        else {
+            villageArray.push(village);
+            markVillageAsSelected(village.id);
+            win.TWMap.reload();
+        }
+
+        if (villageArray.length == 2) {
+            renderTravelTimeTable();
+        }
+    }
+
+    const clickFunction = (x, y, event) => {
+        handleVillage(x, y);
+        return false;
+    }
+
+    $(document).ready(() => {
+        $(document).on("keypress", (e) => {
+            if (String.fromCharCode(e.which) == 'd') {
+                if (!active) {
+                    run();
+                } else {
+                    disable();
+                }
+            }
+        })
+    });
 })();
