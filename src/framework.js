@@ -11,5 +11,7 @@ const win = typeof unsafeWindow != 'undefined' ? unsafeWindow : window;
         win.TWFramework.ScreenControllerFactory = ScreenControllerFactory;
 
         win.TWFramework.World = await World.load();
+
+        win.TWFramework.finishedLoading = true;
     }
 })();
