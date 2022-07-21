@@ -7,6 +7,8 @@ const win = typeof unsafeWindow != 'undefined' ? unsafeWindow : window;
 (async () => {
     if (!window.TWFramework) {
         win.TWFramework = {};
+        win.TWFramework.finishedLoading = false;
+
         win.TWFramework.ModelFactory = ModelFactory;
         win.TWFramework.ScreenControllerFactory = ScreenControllerFactory;
 
