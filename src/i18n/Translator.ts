@@ -1,5 +1,3 @@
-import * as test from "./de.json";
-
 class Translator {
     private static translationProviderMap: Map<string, any> = new Map<string, any>();
 

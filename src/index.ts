@@ -6,6 +6,7 @@ export * from './tw/screens';
 export * from './tw/UIMessageService';
 
 export * from './DOMHelpers';
+export * from './i18n/Translator';
 
 export const getGameData = (): GameDataObjectDefinition => {
     return window.game_data;
