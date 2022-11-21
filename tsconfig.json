@@ -4,7 +4,10 @@
         "target": "es2015",
         "moduleResolution": "node",
         "declaration": true,
-        "outDir": "./dist"
+        "outDir": "./dist",
+        "types": [
+            "./src/types"
+        ],
     },
     "exclude": [
         "node_modules"

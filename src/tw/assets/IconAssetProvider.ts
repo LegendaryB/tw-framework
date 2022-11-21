@@ -12,13 +12,13 @@ export class IconAssetProvider {
     }
 
     public static getBuildingIcon(building: Building): string {
-        let building_name = building.toString().toLowerCase();
+        let building_name = Building[building].toString();
 
         return this.getIcon(building_name, IconAssetType.Unit);
     }
 
     public static getUnitIcon(unit: Unit): string {
-        let unit_name = unit.toString().toLocaleLowerCase();
+        let unit_name = Unit[unit].toLowerCase();
 
         return this.getIcon(`unit_${unit_name}`, IconAssetType.Unit);
     }

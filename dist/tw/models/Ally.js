@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Ally = void 0;
-class Ally {
+export class Ally {
     constructor(id, name, tag, playerCount, points, rank, bashpoints, bashpointsRank) {
         this.id = id;
         this.name = name;
@@ -13,4 +10,3 @@ class Ally {
         this.bashpointsRank = bashpointsRank;
     }
 }
-exports.Ally = Ally;
