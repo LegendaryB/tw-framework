@@ -1,4 +1,4 @@
-declare class Translator {
+export declare class Translator {
     private static translationProviderMap;
     static registerTranslationProvider(lang: string, translations: any): void;
     static unregisterTranslationProvider(lang: string): void;

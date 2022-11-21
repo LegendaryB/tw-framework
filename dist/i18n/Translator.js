@@ -1,5 +1,5 @@
 var _a;
-class Translator {
+export class Translator {
     static registerTranslationProvider(lang, translations) {
         this.translationProviderMap.set(lang, translations);
     }

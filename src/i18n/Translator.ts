@@ -1,4 +1,4 @@
-class Translator {
+export class Translator {
     private static translationProviderMap: Map<string, any> = new Map<string, any>();
 
     public static registerTranslationProvider(lang: string, translations: any) {
