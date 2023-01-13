@@ -28,9 +28,9 @@ const get = (endpoint, cacheKey) => __awaiter(void 0, void 0, void 0, function* 
         return JSON.parse(item);
     }
     let response = yield request(endpoint);
-    let json = xmlToJS(response);
-    Storage.setRawItem(cacheKey, json);
-    return json;
+    let obj = xmlToJS(response);
+    Storage.setRawItem(cacheKey, obj);
+    return obj;
 });
 export const getWorldConfiguration = () => __awaiter(void 0, void 0, void 0, function* () {
     return get(WORLD_CONFIG_ENDPOINT, WORLD_CONFIG_KEY);

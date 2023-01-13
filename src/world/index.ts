@@ -31,11 +31,11 @@ const get = async (endpoint: string, cacheKey: string): Promise<any> => {
     }
 
     let response = await request(endpoint);
-    let json = xmlToJS(response);
+    let obj = xmlToJS(response);
 
-    Storage.setRawItem(cacheKey, json);
+    Storage.setRawItem(cacheKey, obj);
 
-    return json;
+    return obj;
 }
 
 export const getWorldConfiguration = async (): Promise<WorldConfiguration> => {
