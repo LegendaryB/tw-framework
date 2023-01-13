@@ -2,15 +2,16 @@ import { WorldConfiguration } from './WorldConfiguration';
 import { BuildingInfoKeys, BuildingInfo } from './BuildingInfo';
 import { UnitInfoKeys, UnitInfo } from './UnitInfo';
 
+import { Storage } from '../storage';
 import { xmlToJson } from './xmlToJson';
 
 const WORLD_CONFIG_ENDPOINT = 'interface.php?func=get_config';
 const UNIT_INFO_ENDPOINT = 'interface.php?func=get_unit_info';
 const BUILDING_INFO_ENDPOINT = 'interface.php?func=get_building_info';
 
-const WORLD_CONFIG_KEY = `tw-framework_${window.game_data.world}_worldConfig`;
-const UNIT_INFO_KEY = `tw-framework_${window.game_data.world}_unitInfo`;
-const BUILDING_INFO_KEY = `tw-framework_${window.game_data.world}_buildingInfo`;
+const WORLD_CONFIG_KEY = 'worldConfig';
+const UNIT_INFO_KEY = 'unitInfo';
+const BUILDING_INFO_KEY = 'buildingInfo';
 
 const request = async (endpoint: string): Promise<string> => {
     let baseURL = new URL(window.location.origin);
@@ -23,7 +24,7 @@ const request = async (endpoint: string): Promise<string> => {
 }
 
 const get = async (endpoint: string, cacheKey: string): Promise<any> => {
-    let item = localStorage.getItem(cacheKey);
+    let item = Storage.getItem(cacheKey);
 
     if (item) {
         return JSON.parse(item); 
@@ -32,7 +33,7 @@ const get = async (endpoint: string, cacheKey: string): Promise<any> => {
     let response = await request(endpoint);
     let json = xmlToJson(response);
 
-    localStorage.setItem(cacheKey, JSON.stringify(json));
+    Storage.setRawItem(cacheKey, json);
 
     return json;
 }
