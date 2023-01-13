@@ -17,9 +17,6 @@ const request = async (endpoint: string): Promise<string> => {
     let response = await fetch(requestURL);
     let body = await response.text();
 
-    //console.log(response);
-    //console.log(body);
-
     return body;
 }
 
@@ -56,7 +53,6 @@ const xmlToJson = (data: string) => {
     let parser = new DOMParser();
     let xml = parser.parseFromString(data, 'text/xml');
     let rootNode = xml.querySelector('config');
-
 
     for (const node of rootNode.children) {
         let key = createKeyForProperty(letterToUpperCaseAt(node.localName, 0));
@@ -102,10 +98,8 @@ export const getBuildingInfo = async (): Promise<Record<BuildingInfoKeys, Buildi
     return data as Record<BuildingInfoKeys, BuildingInfo>;
 }
 
-
 export const getUnitInfo = async (): Promise<Record<UnitInfoKeys, UnitInfo>> => {
     let data = await get(UNIT_INFO_ENDPOINT, UNIT_INFO_KEY) ;
 
     return data as Record<UnitInfoKeys, UnitInfo>;
 }
-
