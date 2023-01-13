@@ -1,8 +1,8 @@
 import { GameData } from './types/game_data';
 
-export * from './UIMessageService';
-export * from './DOMHelpers';
-export * from './i18n/Translator';
+export * from './services';
+export * from './utils';
+export * from './i18n';
 
 export * from './world';
 export * from './scrapers'
