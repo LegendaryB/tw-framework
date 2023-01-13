@@ -1,5 +1,3 @@
-export type BuildingInfoKeys = 'Main' | 'Barracks' | 'Stable' | 'Garage' | 'Snob' | 'Smith' | 'Place' | 'Statue' | 'Market' | 'Wood' | 'Stone' | 'Iron' | 'Farm' | 'Storage' | 'Hide' | 'Wall'
-
 export interface BuildingInfo {
     MaxLevel: number
     MinLevel: number

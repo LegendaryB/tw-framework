@@ -1,6 +1,7 @@
 import { WorldConfiguration } from './WorldConfiguration';
-import { BuildingInfoKeys, BuildingInfo } from './BuildingInfo';
-import { UnitInfoKeys, UnitInfo } from './UnitInfo';
+import { BuildingInfo } from './BuildingInfo';
+import { UnitInfo } from './UnitInfo';
+import { BuildingKeys, UnitKeys } from '../common';
 
 import { Storage } from '../storage';
 import { xmlToJS } from './xmlToJS';
@@ -42,14 +43,14 @@ export const getWorldConfiguration = async (): Promise<WorldConfiguration> => {
     return get(WORLD_CONFIG_ENDPOINT, WORLD_CONFIG_KEY);
 }
 
-export const getBuildingInfo = async (): Promise<Record<BuildingInfoKeys, BuildingInfo>> => {
+export const getBuildingInfo = async (): Promise<Record<BuildingKeys, BuildingInfo>> => {
     let data = await get(BUILDING_INFO_ENDPOINT, BUILDING_INFO_KEY);
 
-    return data as Record<BuildingInfoKeys, BuildingInfo>;
+    return data as Record<BuildingKeys, BuildingInfo>;
 }
 
-export const getUnitInfo = async (): Promise<Record<UnitInfoKeys, UnitInfo>> => {
+export const getUnitInfo = async (): Promise<Record<UnitKeys, UnitInfo>> => {
     let data = await get(UNIT_INFO_ENDPOINT, UNIT_INFO_KEY) ;
 
-    return data as Record<UnitInfoKeys, UnitInfo>;
+    return data as Record<UnitKeys, UnitInfo>;
 }

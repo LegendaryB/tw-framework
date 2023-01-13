@@ -1,6 +1,7 @@
 import { WorldConfiguration } from './WorldConfiguration';
-import { BuildingInfoKeys, BuildingInfo } from './BuildingInfo';
-import { UnitInfoKeys, UnitInfo } from './UnitInfo';
+import { BuildingInfo } from './BuildingInfo';
+import { UnitInfo } from './UnitInfo';
+import { BuildingKeys, UnitKeys } from '../common';
 export declare const getWorldConfiguration: () => Promise<WorldConfiguration>;
-export declare const getBuildingInfo: () => Promise<Record<BuildingInfoKeys, BuildingInfo>>;
-export declare const getUnitInfo: () => Promise<Record<UnitInfoKeys, UnitInfo>>;
+export declare const getBuildingInfo: () => Promise<Record<BuildingKeys, BuildingInfo>>;
+export declare const getUnitInfo: () => Promise<Record<UnitKeys, UnitInfo>>;
