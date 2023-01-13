@@ -1,8 +1,6 @@
-import { GameDataObjectDefinition } from './types/GameDataWindowObject';
-export * from './tw/models';
-export * from './tw/assets';
-export * from './tw/screens';
-export * from './tw/UIMessageService';
+import { GameData } from './types/game_data';
+export * from './UIMessageService';
 export * from './DOMHelpers';
 export * from './i18n/Translator';
-export declare const getGameData: () => GameDataObjectDefinition;
+export * from './world';
+export declare const getGameData: () => GameData;

@@ -10,8 +10,11 @@ export class Translator {
     }
 
     public static translate = (propertyKey: string) => {
-        let provider = this.translationProviderMap.get(navigator.language);
-        provider = provider || this.translationProviderMap['en'];
+        let provider = this.translationProviderMap.get(window.game_data.locale);
+
+        if (!provider) {
+            return "ERROR! NO TRANSLATION!";
+        }
 
         return provider[propertyKey];
     }

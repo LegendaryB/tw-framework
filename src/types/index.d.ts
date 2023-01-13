@@ -1,9 +1,9 @@
-import { GameDataObjectDefinition } from "./GameDataWindowObject";
-import { UIObjectDefinition } from "./UIObjectDefinition";
+import { GameData } from './game_data';
+import { UI } from './UI';
 
 declare global {
     interface Window {
-        game_data: GameDataObjectDefinition;
-        UI: UIObjectDefinition;
+        game_data: GameData;
+        UI: UI;
     }
 }

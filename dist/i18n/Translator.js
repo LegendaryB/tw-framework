@@ -13,8 +13,10 @@ export class Translator {
 _a = Translator;
 Translator.translationProviderMap = new Map();
 Translator.translate = (propertyKey) => {
-    let provider = _a.translationProviderMap.get(navigator.language);
-    provider = provider || _a.translationProviderMap['en'];
+    let provider = _a.translationProviderMap.get(window.game_data.locale);
+    if (!provider) {
+        return "ERROR! NO TRANSLATION!";
+    }
     return provider[propertyKey];
 };
 Translator.translateAndReplace = (data) => {
