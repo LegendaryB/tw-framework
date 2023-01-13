@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { Storage } from '../storage';
-import { xmlToJson } from './xmlToJson';
+import { xmlToJS } from './xmlToJS';
 const WORLD_CONFIG_ENDPOINT = 'interface.php?func=get_config';
 const UNIT_INFO_ENDPOINT = 'interface.php?func=get_unit_info';
 const BUILDING_INFO_ENDPOINT = 'interface.php?func=get_building_info';
@@ -28,7 +28,7 @@ const get = (endpoint, cacheKey) => __awaiter(void 0, void 0, void 0, function* 
         return JSON.parse(item);
     }
     let response = yield request(endpoint);
-    let json = xmlToJson(response);
+    let json = xmlToJS(response);
     Storage.setRawItem(cacheKey, json);
     return json;
 });

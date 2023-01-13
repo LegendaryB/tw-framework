@@ -3,7 +3,7 @@ import { BuildingInfoKeys, BuildingInfo } from './BuildingInfo';
 import { UnitInfoKeys, UnitInfo } from './UnitInfo';
 
 import { Storage } from '../storage';
-import { xmlToJson } from './xmlToJson';
+import { xmlToJS } from './xmlToJS';
 
 const WORLD_CONFIG_ENDPOINT = 'interface.php?func=get_config';
 const UNIT_INFO_ENDPOINT = 'interface.php?func=get_unit_info';
@@ -31,7 +31,7 @@ const get = async (endpoint: string, cacheKey: string): Promise<any> => {
     }
 
     let response = await request(endpoint);
-    let json = xmlToJson(response);
+    let json = xmlToJS(response);
 
     Storage.setRawItem(cacheKey, json);
 
